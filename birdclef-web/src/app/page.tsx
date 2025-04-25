@@ -5,7 +5,7 @@ export default function Home() {
         Welcome to BirdCLEF 🐦
       </h1>
       <p className="mt-4 text-xl text-gray-700 max-w-xl">
-        Discover bird species just by uploading their sounds. Powered by Google's Flash 2.0.
+        Discover bird species just by uploading their sounds. Powered by Google Flash 2.0.
       </p>
       <a
         href="/upload"
