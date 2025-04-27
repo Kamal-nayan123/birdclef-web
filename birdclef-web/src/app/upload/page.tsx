@@ -15,7 +15,12 @@ export default function UploadPage() {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/predict', formData);
+      const response = await axios.post('http://localhost:5000/predict', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data', // Explicitly set header, though axios usually handles it
+        },
+    });
+
       console.log("Audio sent to backend");
       console.log(response.data); // Logging the full response
 

@@ -1,22 +1,11 @@
-import base64
-from openai import OpenAI
+from google.generativeai import genai
 
-client = OpenAI()
+client = genai.Client(api_key="GOOGLE_API_KEY")
 
-completion = client.chat.completions.create(
-    model="gpt-4o-audio-preview",
-    modalities=["text", "audio"],
-    audio={"voice": "alloy", "format": "wav"},
-    messages=[
-        {
-            "role": "user",
-            "content": "Is a golden retriever a good family dog?"
-        }
-    ]
+myfile = client.files.upload(file="path/to/sample.mp3")
+
+response = client.models.generate_content(
+    model="gemini-2.0-flash", contents=["Describe this audio clip", myfile]
 )
 
-print(completion.choices[0])
-
-wav_bytes = base64.b64decode(completion.choices[0].message.audio.data)
-with open("dog.wav", "wb") as f:
-    f.write(wav_bytes)
+print(response.text)
