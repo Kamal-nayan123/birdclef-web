@@ -13,7 +13,7 @@ export default function UploadPage() {
     const formData = new FormData();
     formData.append('audio', audio);
     setLoading(true);
-
+    console.log("Audio uploaded successfully");
     try {
       const response = await axios.post('http://localhost:5000/predict', formData, {
         headers: {

@@ -41,7 +41,7 @@ app.post("/predict", upload.single("audio"), async (req, res) => {
     const response = await ai.models.generateContent({
       model: "gemini-2.0-flash",
       contents: createUserContent([ 
-        "Describe this audio clip", 
+        "Describe this audio clip in a line very precisely", 
         {
           fileData: {
             fileUri: uploadedFile.uri,
