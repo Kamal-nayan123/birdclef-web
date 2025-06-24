@@ -2,6 +2,7 @@
 import { useState, useRef } from 'react';
 import axios from 'axios';
 import { useUser } from '@clerk/nextjs';
+import Image from 'next/image';
 
 export default function ImageSearch() {
   const { user, isSignedIn } = useUser();
@@ -203,10 +204,13 @@ export default function ImageSearch() {
             <div className="mb-8">
               <h3 className="text-lg font-medium text-gray-700 mb-4">Image Preview</h3>
               <div className="bg-gray-50 rounded-lg p-4">
-                <img 
-                  src={imageUrl} 
+                <Image 
+                  src={imageUrl || ''} 
                   alt="Uploaded bird" 
                   className="max-w-full h-auto rounded-lg shadow-sm"
+                  width={400}
+                  height={300}
+                  unoptimized
                 />
               </div>
             </div>

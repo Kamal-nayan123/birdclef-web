@@ -1,5 +1,6 @@
 'use client';
 import { useEffect, useState } from 'react';
+import Image from 'next/image';
 
 interface Bird {
   _id: string;
@@ -133,13 +134,16 @@ export default function Birdpedia() {
             >
               <div className="h-48 bg-gradient-to-br from-blue-100 to-green-100 flex items-center justify-center">
                 {bird.media?.images && bird.media.images.length > 0 ? (
-                  <img
+                  <Image
                     src={bird.media.images[0].url}
                     alt={bird.media.images[0].caption || bird.name.common}
                     className="object-cover h-full w-full"
+                    width={400}
+                    height={192}
+                    unoptimized
                   />
                 ) : (
-                  <span className="text-6xl">🐦</span>
+                  <span className="text-6xl">{'\ud83d\udc26'}</span>
                 )}
               </div>
               <div className="p-6">
@@ -188,13 +192,16 @@ export default function Birdpedia() {
                 </div>
                 <div className="mb-4">
                   {selectedBird.media?.images && selectedBird.media.images.length > 0 ? (
-                    <img
+                    <Image
                       src={selectedBird.media.images[0].url}
                       alt={selectedBird.media.images[0].caption || selectedBird.name.common}
                       className="object-cover h-64 w-full rounded-xl"
+                      width={400}
+                      height={256}
+                      unoptimized
                     />
                   ) : (
-                    <span className="text-6xl">🐦</span>
+                    <span className="text-6xl">{'\ud83d\udc26'}</span>
                   )}
                 </div>
                 <div className="space-y-2">
