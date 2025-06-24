@@ -1,12 +1,12 @@
-const express = require("express");
-const multer = require("multer");
-const cors = require("cors");
-const { GoogleGenAI, createUserContent, createPartFromUri } = require("@google/genai");
-const path = require("path");
-const fs = require("fs");
+import express from "express";
+import multer from "multer";
+import cors from "cors";
+import { GoogleGenAI, createUserContent, createPartFromUri } from "@google/genai";
+import { resolve } from "path";
+import { unlinkSync } from "fs";
 
 const app = express();
-const PORT = 5000;
+const PORT = 3000;
 
 // CORS middleware (important for frontend -> backend requests)
 app.use(cors());
@@ -24,7 +24,7 @@ app.post("/predict", upload.single("audio"), async (req, res) => {
       return res.status(400).json({ error: "No audio file uploaded" });
     }
 
-    const filePath = path.resolve(req.file.path);
+    const filePath = resolve(req.file.path);
     const mimeType = req.file.mimetype;
 
     console.log("Received file:", filePath);
@@ -54,7 +54,7 @@ app.post("/predict", upload.single("audio"), async (req, res) => {
     console.log("Gemini Response:", response.text);
 
     // Clean up local file after use
-    fs.unlinkSync(filePath);
+    unlinkSync(filePath);
 
     // Send the result back
     res.json({ gemini_response: response.text });
