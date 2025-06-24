@@ -22,49 +22,45 @@ const sampleBirds = [
       species: "cardinalis"
     },
     description: {
-      physical: "Bright red songbird with distinctive crest. Males are bright red with black face mask, females are brownish with red tinges.",
-      behavior: "Territorial birds that sing year-round. Often seen at bird feeders.",
-      habitat: "Woodlands, gardens, and suburban areas across eastern North America.",
-      diet: "Seeds, fruits, and insects.",
-      breeding: "Monogamous pairs that raise 2-3 broods per year.",
-      conservation: "Common and widespread, population stable."
+      physical: "The Northern Cardinal is a medium-sized songbird with a distinctive crest. Males are bright red with a black face mask, while females are brownish-red with red accents.",
+      behavior: "Cardinals are territorial birds that form monogamous pairs. They are known for their beautiful songs and are active year-round.",
+      habitat: "Found in woodlands, gardens, and suburban areas across eastern North America.",
+      diet: "Omnivorous, feeding on seeds, fruits, and insects.",
+      breeding: "Breeding season runs from March to September. They build cup-shaped nests in dense vegetation.",
+      conservation: "Common and widespread, with stable populations."
     },
     characteristics: {
       size: {
-        length: { min: 20, max: 23, unit: "cm" },
+        length: { min: 21, max: 23, unit: "cm" },
         wingspan: { min: 25, max: 31, unit: "cm" },
         weight: { min: 42, max: 48, unit: "g" }
       },
       lifespan: { wild: 15, captivity: 20, unit: "years" },
-      colors: ["red", "black", "brown"],
+      colors: ["red", "black", "brown", "orange"],
       distinctiveFeatures: ["crest", "black face mask", "bright red plumage"]
     },
-    habitat: {
-      type: ["forest", "garden", "suburban"],
-      range: {
-        continents: ["North America"],
-        countries: ["United States", "Canada", "Mexico"],
-        regions: ["Eastern", "Central"]
-      },
-      elevation: { min: 0, max: 2000, unit: "m" },
-      climate: ["temperate"]
+    habitat: ["forest", "garden", "suburban"],
+    range: {
+      continents: ["North America"],
+      countries: ["USA", "Canada", "Mexico"],
+      regions: ["Eastern", "Central", "Southwestern"]
     },
+    elevation: { min: 0, max: 2000, unit: "m" },
+    climate: ["temperate"],
     behavior: {
       social: "pair",
       migration: "resident",
       activity: "diurnal",
       nesting: "tree"
     },
-    diet: {
-      type: ["seeds", "fruits", "insects"],
-      feeding: {
-        method: ["foraging"],
-        location: ["ground", "trees"]
-      }
+    diet: ["seeds", "fruits", "insects"],
+    feeding: {
+      method: ["foraging"],
+      location: ["ground", "trees"]
     },
     breeding: {
       season: { start: "March", end: "September" },
-      clutchSize: { min: 3, max: 4 },
+      clutchSize: { min: 2, max: 5 },
       incubationPeriod: { value: 12, unit: "days" },
       fledgingPeriod: { value: 10, unit: "days" }
     },
@@ -74,117 +70,41 @@ const sampleBirds = [
         trend: "stable",
         estimate: { value: 120000000, unit: "individuals" }
       },
-      threats: ["habitat loss", "window collisions"]
+      threats: ["habitat loss", "window collisions", "domestic cats"]
     },
     media: {
       images: [
         {
-          url: "https://example.com/cardinal-male.jpg",
+          url: "https://example.com/cardinal_male.jpg",
           caption: "Male Northern Cardinal",
-          credit: "John Doe",
+          credit: "John Smith",
           type: "male"
         }
       ],
       sounds: [
         {
-          url: "https://example.com/cardinal-song.mp3",
+          url: "https://example.com/cardinal_song.mp3",
           type: "song",
           duration: 3.5,
-          description: "Clear whistled song"
+          description: "Male territorial song"
         }
       ]
     },
     identification: {
-      fieldMarks: ["bright red plumage", "black face mask", "crest", "red bill"],
+      fieldMarks: ["bright red plumage", "black face mask", "crest", "orange bill"],
       similarSpecies: [
         {
           name: "Scarlet Tanager",
-          differences: "No crest, black wings, different bill shape"
+          differences: "No crest, different bill shape, different song"
         }
       ],
-      voice: "Clear whistled song: 'what-cheer, what-cheer, what-cheer'",
+      voice: "Clear whistled song: 'cheer cheer cheer' or 'birdie birdie birdie'",
       flight: "Undulating flight pattern"
     },
-    tags: ["songbird", "red", "crest", "common", "feeder"],
+    tags: ["songbird", "red", "common", "backyard"],
     isExtinct: false,
     isPopular: true,
-    searchCount: 2847
-  },
-  {
-    name: {
-      common: "American Robin",
-      scientific: "Turdus migratorius",
-      family: "Turdidae",
-      order: "Passeriformes"
-    },
-    taxonomy: {
-      kingdom: "Animalia",
-      phylum: "Chordata",
-      class: "Aves",
-      order: "Passeriformes",
-      family: "Turdidae",
-      genus: "Turdus",
-      species: "migratorius"
-    },
-    description: {
-      physical: "Familiar thrush with red-orange breast, gray back, and white belly. Often seen hopping on lawns.",
-      behavior: "Migratory bird that returns early in spring. Feeds on worms and insects.",
-      habitat: "Lawns, gardens, woodlands, and urban areas across North America.",
-      diet: "Earthworms, insects, and berries.",
-      breeding: "Builds cup-shaped nests in trees and shrubs.",
-      conservation: "Very common and widespread."
-    },
-    characteristics: {
-      size: {
-        length: { min: 23, max: 28, unit: "cm" },
-        wingspan: { min: 31, max: 41, unit: "cm" },
-        weight: { min: 77, max: 85, unit: "g" }
-      },
-      lifespan: { wild: 2, captivity: 14, unit: "years" },
-      colors: ["red-orange", "gray", "white", "black"],
-      distinctiveFeatures: ["red-orange breast", "white eye ring", "yellow bill"]
-    },
-    habitat: {
-      type: ["lawn", "garden", "forest", "urban"],
-      range: {
-        continents: ["North America"],
-        countries: ["United States", "Canada", "Mexico"],
-        regions: ["North America"]
-      },
-      elevation: { min: 0, max: 3000, unit: "m" },
-      climate: ["temperate", "boreal"]
-    },
-    behavior: {
-      social: "flock",
-      migration: "migratory",
-      activity: "diurnal",
-      nesting: "tree"
-    },
-    diet: {
-      type: ["earthworms", "insects", "berries"],
-      feeding: {
-        method: ["foraging"],
-        location: ["ground"]
-      }
-    },
-    breeding: {
-      season: { start: "April", end: "July" },
-      clutchSize: { min: 3, max: 5 },
-      incubationPeriod: { value: 14, unit: "days" },
-      fledgingPeriod: { value: 14, unit: "days" }
-    },
-    conservation: {
-      status: "LC",
-      population: {
-        trend: "stable",
-        estimate: { value: 310000000, unit: "individuals" }
-      },
-      threats: ["habitat loss", "pesticides"]
-    },
-    tags: ["thrush", "migratory", "lawn", "common"],
-    isExtinct: false,
-    isPopular: true,
-    searchCount: 2156
+    searchCount: 2500
   },
   {
     name: {
@@ -203,12 +123,12 @@ const sampleBirds = [
       species: "cristata"
     },
     description: {
-      physical: "Striking blue and white bird with crest and black necklace. Known for intelligence and vocalizations.",
-      behavior: "Intelligent and social birds that can mimic other species. Often aggressive at feeders.",
-      habitat: "Forests, parks, and suburban areas across eastern North America.",
-      diet: "Acorns, nuts, seeds, insects, and eggs.",
-      breeding: "Monogamous pairs that defend territories aggressively.",
-      conservation: "Common and widespread."
+      physical: "The Blue Jay is a large songbird with bright blue plumage, white underparts, and a distinctive crest. They have black markings around the face and neck.",
+      behavior: "Blue Jays are intelligent and social birds that form family groups. They are known for their loud calls and mimicry abilities.",
+      habitat: "Found in forests, woodlands, and suburban areas across eastern North America.",
+      diet: "Omnivorous, feeding on nuts, seeds, insects, and occasionally eggs and nestlings.",
+      breeding: "Breeding season runs from March to July. They build cup-shaped nests in trees.",
+      conservation: "Common and widespread, with stable populations."
     },
     characteristics: {
       size: {
@@ -216,32 +136,28 @@ const sampleBirds = [
         wingspan: { min: 34, max: 43, unit: "cm" },
         weight: { min: 70, max: 100, unit: "g" }
       },
-      lifespan: { wild: 7, captivity: 26, unit: "years" },
-      colors: ["blue", "white", "black"],
+      lifespan: { wild: 26, captivity: 30, unit: "years" },
+      colors: ["blue", "white", "black", "gray"],
       distinctiveFeatures: ["crest", "blue plumage", "black necklace", "white face"]
     },
-    habitat: {
-      type: ["forest", "park", "suburban"],
-      range: {
-        continents: ["North America"],
-        countries: ["United States", "Canada"],
-        regions: ["Eastern"]
-      },
-      elevation: { min: 0, max: 2500, unit: "m" },
-      climate: ["temperate"]
+    habitat: ["forest", "woodland", "suburban"],
+    range: {
+      continents: ["North America"],
+      countries: ["USA", "Canada"],
+      regions: ["Eastern", "Central"]
     },
+    elevation: { min: 0, max: 1500, unit: "m" },
+    climate: ["temperate"],
     behavior: {
       social: "flock",
       migration: "partial",
       activity: "diurnal",
       nesting: "tree"
     },
-    diet: {
-      type: ["acorns", "nuts", "seeds", "insects", "eggs"],
-      feeding: {
-        method: ["foraging", "caching"],
-        location: ["trees", "ground"]
-      }
+    diet: ["nuts", "seeds", "insects", "eggs"],
+    feeding: {
+      method: ["foraging", "caching"],
+      location: ["trees", "ground"]
     },
     breeding: {
       season: { start: "March", end: "July" },
@@ -255,12 +171,41 @@ const sampleBirds = [
         trend: "stable",
         estimate: { value: 17000000, unit: "individuals" }
       },
-      threats: ["habitat loss"]
+      threats: ["habitat loss", "window collisions"]
     },
-    tags: ["corvid", "intelligent", "blue", "crest", "mimic"],
+    media: {
+      images: [
+        {
+          url: "https://example.com/blue_jay.jpg",
+          caption: "Blue Jay",
+          credit: "Jane Doe",
+          type: "male"
+        }
+      ],
+      sounds: [
+        {
+          url: "https://example.com/blue_jay_call.mp3",
+          type: "call",
+          duration: 2.1,
+          description: "Loud 'jay jay jay' call"
+        }
+      ]
+    },
+    identification: {
+      fieldMarks: ["blue plumage", "white underparts", "black necklace", "crest"],
+      similarSpecies: [
+        {
+          name: "Steller's Jay",
+          differences: "Darker blue, different range, different calls"
+        }
+      ],
+      voice: "Loud 'jay jay jay' calls and various other vocalizations",
+      flight: "Direct flight with steady wingbeats"
+    },
+    tags: ["corvid", "blue", "intelligent", "mimic"],
     isExtinct: false,
     isPopular: true,
-    searchCount: 1943
+    searchCount: 1800
   },
   {
     name: {
@@ -279,45 +224,41 @@ const sampleBirds = [
       species: "cucullatus"
     },
     description: {
-      physical: "Large, flightless bird with gray plumage, large hooked bill, and small wings. Iconic symbol of extinction.",
-      behavior: "Flightless bird that was tame and unafraid of humans, leading to its rapid extinction.",
-      habitat: "Forests of Mauritius island in the Indian Ocean.",
-      diet: "Fruits, seeds, and possibly small animals.",
-      breeding: "Laid single egg on ground in simple nest.",
-      conservation: "Extinct due to human hunting and introduced species."
+      physical: "The Dodo was a large, flightless bird with grayish plumage, a large hooked bill, and small wings. It stood about 1 meter tall and weighed up to 23 kg.",
+      behavior: "The Dodo was a ground-dwelling bird that was likely social and lived in groups. It was probably diurnal and fed on fruits and seeds.",
+      habitat: "Endemic to the island of Mauritius in the Indian Ocean.",
+      diet: "Herbivorous, feeding on fruits, seeds, and possibly roots.",
+      breeding: "Little is known about breeding behavior, but they likely nested on the ground.",
+      conservation: "Extinct since the late 17th century due to human activities."
     },
     characteristics: {
       size: {
         length: { min: 100, max: 110, unit: "cm" },
         wingspan: { min: 0, max: 0, unit: "cm" },
-        weight: { min: 10000, max: 17000, unit: "g" }
+        weight: { min: 15000, max: 23000, unit: "g" }
       },
-      lifespan: { wild: 20, captivity: 0, unit: "years" },
-      colors: ["gray", "white", "black"],
-      distinctiveFeatures: ["flightless", "large bill", "small wings", "gray plumage"]
+      lifespan: { wild: 20, captivity: 25, unit: "years" },
+      colors: ["gray", "white", "yellow"],
+      distinctiveFeatures: ["flightless", "large bill", "small wings", "thick legs"]
     },
-    habitat: {
-      type: ["forest"],
-      range: {
-        continents: ["Africa"],
-        countries: ["Mauritius"],
-        regions: ["Indian Ocean"]
-      },
-      elevation: { min: 0, max: 500, unit: "m" },
-      climate: ["tropical"]
+    habitat: ["forest", "coastal"],
+    range: {
+      continents: ["Africa"],
+      countries: ["Mauritius"],
+      regions: ["Indian Ocean"]
     },
+    elevation: { min: 0, max: 500, unit: "m" },
+    climate: ["tropical"],
     behavior: {
       social: "solitary",
       migration: "resident",
       activity: "diurnal",
       nesting: "ground"
     },
-    diet: {
-      type: ["fruits", "seeds"],
-      feeding: {
-        method: ["foraging"],
-        location: ["ground"]
-      }
+    diet: ["fruits", "seeds"],
+    feeding: {
+      method: ["foraging"],
+      location: ["ground"]
     },
     breeding: {
       season: { start: "August", end: "January" },
@@ -328,7 +269,7 @@ const sampleBirds = [
     conservation: {
       status: "EX",
       population: {
-        trend: "extinct",
+        trend: "unknown",
         estimate: { value: 0, unit: "individuals" }
       },
       threats: ["hunting", "introduced species", "habitat destruction"]
@@ -338,6 +279,119 @@ const sampleBirds = [
     extinctYear: 1681,
     isPopular: true,
     searchCount: 1500
+  },
+  {
+    name: {
+      common: "Bald Eagle",
+      scientific: "Haliaeetus leucocephalus",
+      family: "Accipitridae",
+      order: "Accipitriformes"
+    },
+    taxonomy: {
+      kingdom: "Animalia",
+      phylum: "Chordata",
+      class: "Aves",
+      order: "Accipitriformes",
+      family: "Accipitridae",
+      genus: "Haliaeetus",
+      species: "leucocephalus"
+    },
+    description: {
+      physical: "Large raptor with white head and tail, yellow beak, and dark brown body and wings.",
+      behavior: "Soars with flat wings, often seen near water. Builds large stick nests in tall trees.",
+      habitat: "Near large bodies of open water with abundant food supply and old-growth trees for nesting.",
+      diet: "Mainly fish, but also birds, mammals, and carrion.",
+      breeding: "Breeds in winter and spring. Both parents incubate eggs and care for young.",
+      conservation: "Recovered from endangered status; populations increasing."
+    },
+    characteristics: {
+      size: {
+        length: { min: 70, max: 102, unit: "cm" },
+        wingspan: { min: 180, max: 234, unit: "cm" },
+        weight: { min: 3000, max: 6300, unit: "g" }
+      },
+      lifespan: { wild: 20, captivity: 50, unit: "years" },
+      colors: ["white", "brown", "yellow"],
+      distinctiveFeatures: ["white head", "yellow beak", "large size"]
+    },
+    habitat: ["wetland", "river", "lake", "coastal"],
+    range: {
+      continents: ["North America"],
+      countries: ["USA", "Canada", "Mexico"],
+      regions: ["Alaska", "Canada", "Lower 48"]
+    },
+    elevation: { min: 0, max: 3000, unit: "m" },
+    climate: ["temperate", "arctic"],
+    behavior: {
+      social: "pair",
+      migration: "partial",
+      activity: "diurnal",
+      nesting: "tree"
+    },
+    diet: ["fish", "birds", "mammals", "carrion"],
+    feeding: {
+      method: ["hunting", "scavenging"],
+      location: ["water", "ground"]
+    },
+    breeding: {
+      season: { start: "January", end: "July" },
+      clutchSize: { min: 1, max: 3 },
+      incubationPeriod: { value: 35, unit: "days" },
+      fledgingPeriod: { value: 70, unit: "days" }
+    },
+    conservation: {
+      status: "LC",
+      population: {
+        trend: "increasing",
+        estimate: { value: 316000, unit: "individuals" }
+      },
+      threats: ["habitat loss", "pollution", "lead poisoning"]
+    },
+    media: {
+      images: [
+        {
+          url: "https://upload.wikimedia.org/wikipedia/commons/1/1a/Bald_Eagle_Portrait.jpg",
+          caption: "Adult Bald Eagle portrait",
+          credit: "Wikimedia Commons",
+          type: "male"
+        },
+        {
+          url: "https://upload.wikimedia.org/wikipedia/commons/3/3c/Bald_Eagle_Nest.jpg",
+          caption: "Bald Eagle at nest",
+          credit: "Wikimedia Commons",
+          type: "habitat"
+        },
+        {
+          url: "https://upload.wikimedia.org/wikipedia/commons/5/5c/Bald_Eagle_Flight.jpg",
+          caption: "Bald Eagle in flight",
+          credit: "Wikimedia Commons",
+          type: "flight"
+        }
+      ],
+      sounds: [
+        {
+          url: "https://www.xeno-canto.org/sounds/uploaded/OOECXQJQXJ/XC572857-BaldEagle.mp3",
+          type: "call",
+          duration: 2.5,
+          description: "Bald Eagle call"
+        }
+      ]
+    },
+    identification: {
+      fieldMarks: ["white head", "yellow beak", "large size", "dark brown body"],
+      similarSpecies: [
+        {
+          name: "Golden Eagle",
+          differences: "Golden Eagle has all dark plumage, feathered legs, and lacks white head."
+        }
+      ],
+      voice: "High-pitched whistling or piping sound.",
+      flight: "Soaring with flat wings, deep wingbeats."
+    },
+    tags: ["raptor", "national bird", "large", "soaring"],
+    isExtinct: false,
+    isPopular: true,
+    searchCount: 2200
   }
 ];
 

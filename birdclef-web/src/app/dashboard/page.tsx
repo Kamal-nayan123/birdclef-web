@@ -1,36 +1,115 @@
 'use client';
-// import { useUser } from '@clerk/nextjs';
-import { useAuth } from '../../contexts/AuthContext';
+import { useUser } from '@clerk/nextjs';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
+interface UserStats {
+  totalIdentifications: number;
+  uniqueSpecies: number;
+  averageConfidence: number;
+  audioRecordings: number;
+  imagesUploaded: number;
+}
+
+interface RecentActivity {
+  _id: string;
+  type: 'audio' | 'image';
+  species: {
+    name: string;
+    scientificName: string;
+  };
+  confidence: number;
+  createdAt: string;
+  timeAgo: string;
+}
+
+interface MostIdentifiedSpecies {
+  species: string;
+  count: number;
+  averageConfidence: number;
+}
+
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:3000';
 
 export default function Dashboard() {
-  // const { user, isSignedIn } = useUser();
-  const { user, isAuthenticated } = useAuth();
+  const { user, isSignedIn, isLoaded } = useUser();
   const router = useRouter();
+  const [stats, setStats] = useState<UserStats | null>(null);
+  const [recentActivity, setRecentActivity] = useState<RecentActivity[]>([]);
+  const [mostIdentifiedSpecies, setMostIdentifiedSpecies] = useState<MostIdentifiedSpecies[]>([]);
+  const [isLoadingData, setIsLoadingData] = useState(true);
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (isLoaded && !isSignedIn) {
       router.push('/');
     }
-  }, [isAuthenticated, router]);
+  }, [isLoaded, isSignedIn, router]);
 
-  if (!isAuthenticated) {
-    return null;
+  useEffect(() => {
+    if (isSignedIn && user && user.id) {
+      fetchDashboardData();
+    }
+  }, [isSignedIn, user]);
+
+  const fetchDashboardData = async () => {
+    if (!user || !user.id) return;
+    try {
+      setIsLoadingData(true);
+      // Fetch user stats
+      const statsResponse = await fetch(`${API_BASE}/api/user/stats?userId=${user.id}`);
+      const statsData = await statsResponse.json();
+      if (statsResponse.ok) {
+        setStats(statsData.stats);
+        setRecentActivity(statsData.recentActivity || []);
+        setMostIdentifiedSpecies(statsData.mostIdentifiedSpecies || []);
+      }
+    } catch (error) {
+      console.error('Error fetching dashboard data:', error);
+    } finally {
+      setIsLoadingData(false);
+    }
+  };
+
+  if (!isLoaded || !isSignedIn) {
+    return (
+      <main className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 p-4">
+        <div className="max-w-6xl mx-auto">
+          <div className="flex items-center justify-center min-h-[400px]">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-muted-foreground">Loading dashboard...</p>
+            </div>
+          </div>
+        </div>
+      </main>
+    );
   }
 
-  const stats = [
-    { label: 'Total Identifications', value: '127', icon: '🔍', color: 'from-primary to-secondary' },
-    { label: 'Species Found', value: '89', icon: '🐦', color: 'from-secondary to-accent' },
-    { label: 'Audio Recordings', value: '45', icon: '🎵', color: 'from-accent to-primary' },
-    { label: 'Images Uploaded', value: '82', icon: '🖼️', color: 'from-primary to-accent' },
-  ];
-
-  const recentActivity = [
-    { type: 'Audio Identification', species: 'Northern Cardinal', time: '2 hours ago', icon: '🎵' },
-    { type: 'Image Upload', species: 'Blue Jay', time: '1 day ago', icon: '🖼️' },
-    { type: 'Audio Identification', species: 'American Robin', time: '2 days ago', icon: '🎵' },
-    { type: 'Image Upload', species: 'House Sparrow', time: '3 days ago', icon: '🖼️' },
+  const statsCards = [
+    { 
+      label: 'Total Identifications', 
+      value: stats?.totalIdentifications || 0, 
+      icon: '🔍', 
+      color: 'from-primary to-secondary' 
+    },
+    { 
+      label: 'Species Found', 
+      value: stats?.uniqueSpecies || 0, 
+      icon: '🐦', 
+      color: 'from-secondary to-accent' 
+    },
+    { 
+      label: 'Audio Recordings', 
+      value: stats?.audioRecordings || 0, 
+      icon: '🎵', 
+      color: 'from-accent to-primary' 
+    },
+    { 
+      label: 'Images Uploaded', 
+      value: stats?.imagesUploaded || 0, 
+      icon: '🖼️', 
+      color: 'from-primary to-accent' 
+    },
   ];
 
   return (
@@ -48,7 +127,7 @@ export default function Dashboard() {
 
         {/* Stats Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-          {stats.map((stat, index) => (
+          {statsCards.map((stat, index) => (
             <div key={stat.label} className="bg-card rounded-2xl p-6 shadow-lg hover-lift animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
               <div className="flex items-center justify-between mb-4">
                 <div className={`w-12 h-12 bg-gradient-to-br ${stat.color} rounded-xl flex items-center justify-center shadow-lg`}>
@@ -113,18 +192,30 @@ export default function Dashboard() {
           <div className="bg-card rounded-2xl p-6 shadow-lg hover-lift">
             <h2 className="text-2xl font-bold text-foreground mb-4">Recent Activity</h2>
             <div className="space-y-4">
-              {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-center space-x-3 p-3 bg-muted/50 rounded-xl">
-                  <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
-                    <span className="text-sm">{activity.icon}</span>
-                  </div>
-                  <div className="flex-1">
-                    <div className="font-medium text-foreground">{activity.species}</div>
-                    <div className="text-sm text-muted-foreground">{activity.type}</div>
-                  </div>
-                  <div className="text-xs text-muted-foreground">{activity.time}</div>
+              {isLoadingData ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+                  <p className="text-sm text-muted-foreground">Loading activity...</p>
                 </div>
-              ))}
+              ) : recentActivity.length > 0 ? (
+                recentActivity.map((activity, index) => (
+                  <div key={activity._id} className="flex items-center space-x-3 p-3 bg-muted/50 rounded-xl animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                    <div className="w-8 h-8 bg-primary/10 rounded-lg flex items-center justify-center">
+                      <span className="text-sm">{activity.type === 'audio' ? '🎵' : '🖼️'}</span>
+                    </div>
+                    <div className="flex-1">
+                      <div className="font-medium text-foreground">{activity.species.name}</div>
+                      <div className="text-sm text-muted-foreground">{activity.type === 'audio' ? 'Audio Identification' : 'Image Upload'}</div>
+                    </div>
+                    <div className="text-xs text-muted-foreground">{activity.timeAgo}</div>
+                  </div>
+                ))
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-muted-foreground">No recent activity</p>
+                  <p className="text-sm text-muted-foreground">Start identifying birds to see your activity here</p>
+                </div>
+              )}
             </div>
             <div className="mt-4">
               <a
@@ -141,21 +232,25 @@ export default function Dashboard() {
         <div className="bg-card rounded-2xl p-6 shadow-lg hover-lift">
           <h2 className="text-2xl font-bold text-foreground mb-6">Your Most Identified Species</h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <div className="text-center p-4 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl">
-              <div className="text-4xl mb-2">🐦</div>
-              <div className="font-semibold text-foreground">Northern Cardinal</div>
-              <div className="text-sm text-muted-foreground">15 identifications</div>
-            </div>
-            <div className="text-center p-4 bg-gradient-to-br from-secondary/5 to-accent/5 rounded-xl">
-              <div className="text-4xl mb-2">🐦</div>
-              <div className="font-semibold text-foreground">Blue Jay</div>
-              <div className="text-sm text-muted-foreground">12 identifications</div>
-            </div>
-            <div className="text-center p-4 bg-gradient-to-br from-accent/5 to-primary/5 rounded-xl">
-              <div className="text-4xl mb-2">🐦</div>
-              <div className="font-semibold text-foreground">American Robin</div>
-              <div className="text-sm text-muted-foreground">8 identifications</div>
-            </div>
+            {isLoadingData ? (
+              <div className="col-span-3 text-center py-8">
+                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-2"></div>
+                <p className="text-sm text-muted-foreground">Loading species data...</p>
+              </div>
+            ) : mostIdentifiedSpecies.length > 0 ? (
+              mostIdentifiedSpecies.map((species, index) => (
+                <div key={species.species} className="text-center p-4 bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
+                  <div className="text-4xl mb-2">🐦</div>
+                  <div className="font-semibold text-foreground">{species.species}</div>
+                  <div className="text-sm text-muted-foreground">{species.count} identifications</div>
+                </div>
+              ))
+            ) : (
+              <div className="col-span-3 text-center py-8">
+                <p className="text-muted-foreground">No species identified yet</p>
+                <p className="text-sm text-muted-foreground">Start identifying birds to see your most common species</p>
+              </div>
+            )}
           </div>
         </div>
       </div>

@@ -1,8 +1,10 @@
 'use client';
 import { useState, useRef } from 'react';
 import axios from 'axios';
+import { useUser } from '@clerk/nextjs';
 
 export default function ImageSearch() {
+  const { user, isSignedIn } = useUser();
   const [image, setImage] = useState<File | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -65,22 +67,50 @@ export default function ImageSearch() {
 
   const handleAnalyze = async () => {
     if (!image) return;
-
+    if (!user) {
+      alert('You must be signed in to save your identification history.');
+      return;
+    }
     const formData = new FormData();
     formData.append('image', image);
     setLoading(true);
     setResult(null);
-
     try {
       // For now, we'll simulate the API call since we need to update the backend
       // const response = await axios.post('http://localhost:3000/predict-image', formData);
-      
       // Simulated response for demonstration
-      setTimeout(() => {
-        setResult("This appears to be a Northern Cardinal (Cardinalis cardinalis), a medium-sized songbird with a distinctive red plumage and black face mask. The male has bright red feathers while the female is more brownish with red tinges.");
+      setTimeout(async () => {
+        const aiText = "This appears to be a Northern Cardinal (Cardinalis cardinalis) with 95% confidence.";
+        setResult(aiText);
+        // --- Parse AI result (simple extraction, adjust as needed) ---
+        const match = aiText.match(/([A-Za-z ]+) \(([^)]+)\).*?(\d+)%/);
+        let speciesName = 'Unknown', scientificName = 'Unknown', confidence = 0;
+        if (match) {
+          speciesName = match[1].trim();
+          scientificName = match[2].trim();
+          confidence = parseInt(match[3], 10);
+        }
+        // --- Store in history ---
+        await axios.post('http://localhost:3000/api/history', {
+          userId: user.id,
+          type: 'image',
+          species: { name: speciesName, scientificName },
+          confidence,
+          fileInfo: {
+            originalName: image.name,
+            fileName: image.name,
+            fileSize: image.size,
+            mimeType: image.type,
+          },
+          location: {},
+          metadata: {},
+          aiAnalysis: { model: 'gemini-2.0-flash', version: '1.0', processingTime: 0, additionalSpecies: [] },
+          tags: [],
+          notes: '',
+          isFavorite: false,
+        });
         setLoading(false);
       }, 2000);
-      
     } catch (err) {
       console.error(err);
       setResult("Error identifying bird. Please try again.");

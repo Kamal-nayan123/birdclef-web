@@ -10,7 +10,8 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "@clerk/nextjs": "^5.0.0",
+    "@clerk/clerk-react": "^5.32.1",
+    "@clerk/nextjs": "^5.7.5",
     "@google/genai": "^0.10.0",
     "@google/generative-ai": "^0.24.0",
     "axios": "^1.9.0",

@@ -1,8 +1,10 @@
 'use client';
 import { useState, useRef } from 'react';
 import axios from 'axios';
+import { useUser } from '@clerk/nextjs';
 
 export default function AudioSearch() {
+  const { user, isSignedIn } = useUser();
   const [audio, setAudio] = useState<File | null>(null);
   const [result, setResult] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -55,20 +57,50 @@ export default function AudioSearch() {
 
   const handleUpload = async () => {
     if (!audio) return;
-
+    if (!user) {
+      alert('You must be signed in to save your identification history.');
+      return;
+    }
     const formData = new FormData();
     formData.append('audio', audio);
     setLoading(true);
     setResult(null);
-
     try {
       const response = await axios.post('http://localhost:3000/predict', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
       });
-
       setResult(response.data.gemini_response);
+      // --- Parse AI result (simple extraction, adjust as needed) ---
+      // Example: "This appears to be a Northern Cardinal (Cardinalis cardinalis) with 95% confidence."
+      const aiText = response.data.gemini_response;
+      const match = aiText.match(/([A-Za-z ]+) \(([^)]+)\).*?(\d+)%/);
+      let speciesName = 'Unknown', scientificName = 'Unknown', confidence = 0;
+      if (match) {
+        speciesName = match[1].trim();
+        scientificName = match[2].trim();
+        confidence = parseInt(match[3], 10);
+      }
+      // --- Store in history ---
+      await axios.post('http://localhost:3000/api/history', {
+        userId: user.id,
+        type: 'audio',
+        species: { name: speciesName, scientificName },
+        confidence,
+        fileInfo: {
+          originalName: audio.name,
+          fileName: audio.name,
+          fileSize: audio.size,
+          mimeType: audio.type,
+        },
+        location: {},
+        metadata: {},
+        aiAnalysis: { model: 'gemini-2.0-flash', version: '1.0', processingTime: 0, additionalSpecies: [] },
+        tags: [],
+        notes: '',
+        isFavorite: false,
+      });
     } catch (err) {
       console.error(err);
       setResult("Error identifying bird. Please try again.");
